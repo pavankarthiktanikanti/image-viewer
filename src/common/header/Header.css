@@ -1,0 +1,16 @@
+/* Styling the header banner and aligning items to center */
+
+.app-header {
+    background-color: #263238;
+    height: 60px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+/* Styling the logo text color and size */
+
+.logo {
+    color: #fff;
+    font-size: 18px;
+}

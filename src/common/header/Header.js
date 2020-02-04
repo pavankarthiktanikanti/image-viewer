@@ -4,6 +4,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { Redirect, Link } from 'react-router-dom';
 import './Header.css';
 
 /**
@@ -38,12 +39,30 @@ class Header extends Component {
         });
     }
 
+    /**
+     * Navigate to Profile Page when My Account Menu is clicked
+     */
+    myAccountClickHandler = () => {
+        this.props.history.push("/profile");
+    }
+
+    /**
+     * Logout the user and clear the session storage
+     */
+    logoutClickHandler = () => {
+        sessionStorage.removeItem('access-token');
+        this.setState({
+            isUserLoggedIn: false
+        });
+    }
+
     render() {
         return (
             <div className='app-header'>
-                <span className='logo'>
-                    Image Viewer
-                </span>
+                {
+                    this.state.isUserLoggedIn ? <Redirect to='/home' /> : <Redirect to='/' />
+                }
+                <Link to="/" className="logo">Image Viewer</Link>
                 {/**
                  * Show the Search box and Profile icon only when the user is logged in
                  */}
@@ -72,14 +91,14 @@ class Header extends Component {
                             open={this.state.showMenu}
                             onClose={this.profilePictureClickHandler}
                             className="profile-options-menu">
-                            <MenuItem>
+                            <MenuItem onClick={this.myAccountClickHandler}>
                                 <span className="menu-option">My Account</span>
                             </MenuItem>
                             {/**
                              * Display a line separator for menu options
                              */}
                             <hr />
-                            <MenuItem>
+                            <MenuItem onClick={this.logoutClickHandler}>
                                 <span className="menu-option">Logout</span>
                             </MenuItem>
                         </Menu>

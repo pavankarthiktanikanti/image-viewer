@@ -66,6 +66,31 @@
     border-radius: 50%;
 }
 
+/* Set top margin for the Profile options Menu */
+
+.profile-options-menu {
+    margin-top: 50px;
+}
+
+/* Set the Background color for Menu Option */
+
+.MuiList-root {
+    background-color: #DFDFDF;
+}
+
+/* Style the menu options with bold text */
+
+.menu-option {
+    font-weight: bold;
+}
+
+/* Horizontal line to separate the menu items */
+
+hr {
+    width: 75%;
+    margin: auto;
+}
+
 /* Set the style based on screen width */
 
 @media(max-width:992px) {

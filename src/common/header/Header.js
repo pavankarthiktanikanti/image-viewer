@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Input from '@material-ui/core/Input';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import './Header.css';
 
 /**
@@ -15,7 +17,8 @@ class Header extends Component {
     constructor() {
         super();
         this.state = {
-            isUserLoggedIn: sessionStorage.getItem('access-token') != null
+            isUserLoggedIn: sessionStorage.getItem('access-token') != null,
+            showMenu: false
         }
     }
 
@@ -23,9 +26,18 @@ class Header extends Component {
 
     }
 
-    profilePictureClickHandler = () => {
-
+    /**
+     * Show or Hide the Menu on click of Profile Picture Icon
+     * toggle the Menu display on click of Profile Picture on on focus loss 
+     * of Menu options box
+     */
+    profilePictureClickHandler = (event) => {
+        this.setState({
+            showMenu: !this.state.showMenu,
+            anchorEl: this.state.anchorEl != null ? null : event.currentTarget
+        });
     }
+
     render() {
         return (
             <div className='app-header'>
@@ -47,11 +59,30 @@ class Header extends Component {
                         {/**
                          * Profile Icon to be shown on top right corner of the page
                          */}
-                        <div>
-                            <IconButton className="profile-picture-icon" onClick={this.profilePictureClickHandler}>
-                                <img src={this.props.profilePicture} alt="Profile Pic" className="profile-pic" />
-                            </IconButton>
-                        </div>
+                        <IconButton className="profile-picture-icon" onClick={this.profilePictureClickHandler}>
+                            <img src={this.props.profilePicture} alt="Profile Pic" className="profile-pic" />
+                        </IconButton>
+                        {/**
+                         * Options menu on click of Profile Picture Icon, to show My Account and Logout
+                         */}
+                        <Menu
+                            id="profile-menu"
+                            anchorEl={this.state.anchorEl}
+                            keepMounted
+                            open={this.state.showMenu}
+                            onClose={this.profilePictureClickHandler}
+                            className="profile-options-menu">
+                            <MenuItem>
+                                <span className="menu-option">My Account</span>
+                            </MenuItem>
+                            {/**
+                             * Display a line separator for menu options
+                             */}
+                            <hr />
+                            <MenuItem>
+                                <span className="menu-option">Logout</span>
+                            </MenuItem>
+                        </Menu>
                     </div>
                 }
             </div>

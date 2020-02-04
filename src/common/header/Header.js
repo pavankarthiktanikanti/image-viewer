@@ -49,7 +49,7 @@ class Header extends Component {
                          */}
                         <div>
                             <IconButton className="profile-picture-icon" onClick={this.profilePictureClickHandler}>
-
+                                <img src={this.props.profilePicture} alt="Profile Pic" className="profile-pic" />
                             </IconButton>
                         </div>
                     </div>

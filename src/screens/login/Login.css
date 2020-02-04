@@ -1,0 +1,43 @@
+/** Style the Login card width, margin and paadding */
+
+.card-style {
+    width: 30%;
+    margin: 2% auto auto auto;
+    padding: 3%;
+}
+
+/** Style the Login Card Headline with xx large font and bold,
+    show all uppercase*/
+
+.login-headline {
+    font-size: xx-large;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+/** Set the display as none, in order to hide the element */
+
+.dispNone {
+    display: none;
+}
+
+/** Set the display as none, in order to show a hidden element */
+
+.dispBlock {
+    display: block;
+}
+
+/** Set the color red for Error Field validation messages */
+
+.red {
+    color: red;
+}
+
+/** Style the Login card's width based on screen width,
+    to make it responsive */
+
+@media (max-width:992px) {
+    .card-style {
+        width: 70%;
+    }
+}

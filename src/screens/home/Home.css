@@ -1,0 +1,55 @@
+/* Style the line separator for full width */
+
+.line-separator {
+    width: 100%;
+    margin: 5px 0px;
+}
+
+/* Style hashtage with bold font and color */
+
+.image-hash-tag {
+    margin-top: 0px;
+    font-weight: 500;
+    color: #73B8FD;
+}
+
+/* Style the Likes text after to show inline*/
+
+.likes-count {
+    display: inline;
+    padding-left: 10px;
+}
+
+/* Provide a top margin for the added comments*/
+
+.comments-section {
+    margin-top: 10px;
+}
+
+/* Style the input comments section with a top margin */
+
+.add-comments-section {
+    width: 95%;
+    margin-top: 10%;
+}
+
+/* Style the username in the comments section in bold*/
+
+.comment-username {
+    display: inline;
+    font-weight: bold;
+}
+
+/* Style the comments text in black color */
+
+.comment-text {
+    display: inline;
+    color: black;
+}
+
+/* Style the Comments Text field with right margin */
+
+.comments-input {
+    width: 100%;
+    margin-right: 10px;
+}

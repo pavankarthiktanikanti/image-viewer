@@ -23,8 +23,12 @@ class Header extends Component {
         }
     }
 
-    searchBoxChangeHandler = () => {
-
+    /**
+     * On Change of data in search box, call the handler by passing the value
+     * to filter the images displayed on the page
+     */
+    searchBoxChangeHandler = (event) => {
+        this.props.searchBoxChangeHandler(event.target.value);
     }
 
     /**
@@ -59,7 +63,9 @@ class Header extends Component {
     render() {
         return (
             <div className='app-header'>
-                {
+                {/**
+                 * Redirect to login page if the user is not logged in or to home page if already logged in
+                 */
                     this.state.isUserLoggedIn ? <Redirect to='/home' /> : <Redirect to='/' />
                 }
                 <Link to="/" className="logo">Image Viewer</Link>

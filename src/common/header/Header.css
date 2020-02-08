@@ -2,8 +2,9 @@
 
 .app-header {
     background-color: #263238;
-    height: 60px;
-    padding: 10px;
+    height: 70px;
+    width: 100%;
+    min-width: 100%;
     display: flex;
     align-items: center;
 }
@@ -13,4 +14,92 @@
 .logo {
     color: #fff;
     font-size: 18px;
+    margin-left: 10px;
+    text-decoration: none;
+}
+
+/* Styling the right content of header, the search box and profile icon */
+
+.header-right-content {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+/* Styling the search box in the header */
+
+.search-box-header {
+    border-radius: 4px;
+    width: 300px;
+    height: 40px;
+    background-color: #c0c0c0;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+/* set the margin for the Search Text box */
+
+.search-box {
+    margin: 2% 0% 0% 1%;
+}
+
+/* Set left margin for the Search Icon */
+
+.search-icon {
+    margin-left: 10px;
+}
+
+/* Set the height and width of Profile Icon */
+
+.profile-picture-icon {
+    height: 70px;
+    width: 70px;
+    background-color: white;
+    border: 10px solid white;
+}
+
+/* Style the Profile Picture to show in circle */
+
+.profile-pic {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+
+/* Set top margin for the Profile options Menu */
+
+.profile-options-menu {
+    margin-top: 50px;
+}
+
+/* Set the Background color for Menu Option */
+
+.MuiList-root {
+    background-color: #DFDFDF;
+}
+
+/* Style the menu options with bold text */
+
+.menu-option {
+    font-weight: bold;
+}
+
+/* Horizontal line to separate the menu items */
+
+hr {
+    width: 75%;
+    margin: auto;
+}
+
+/* Set the style based on screen width */
+
+@media(max-width:992px) {
+    .search-box-header {
+        max-width: 300px;
+        width: auto;
+    }
+    .profile-picture-icon {
+        max-width: 70px;
+    }
 }

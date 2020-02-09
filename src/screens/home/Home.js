@@ -225,10 +225,10 @@ class Home extends Component {
                                     classes={{ title: classes.boldFont }}
                                     avatar={
                                         <Avatar
-                                            src={image.caption.from.profile_picture} className="">
+                                            src={image.user.profile_picture}>
                                         </Avatar>
                                     }
-                                    title={image.caption.from.username}
+                                    title={image.user.username}
                                     subheader={image.created_time}>
                                 </CardHeader>
                                 {/**
@@ -241,7 +241,7 @@ class Home extends Component {
                                         {image.caption.text[0]}
                                     </Typography>
                                     <Typography className="image-hash-tag">
-                                        {image.caption.text[1]}
+                                        {image.tags && image.tags.map(tag => '#' + tag + ' ')}
                                     </Typography>
                                     {/**
                                      * Show Favorite Icon with red color when liked, Border Icon otherwise

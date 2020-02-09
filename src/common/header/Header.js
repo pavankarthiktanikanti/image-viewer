@@ -64,11 +64,11 @@ class Header extends Component {
         return (
             <div className='app-header'>
                 {/**
-                 * Redirect to login page if the user is not logged in or to home page if already logged in
+                 * Redirect to login page if the user is not logged in
                  */
-                    this.state.isUserLoggedIn ? <Redirect to='/home' /> : <Redirect to='/' />
+                    !this.state.isUserLoggedIn && <Redirect to='/' />
                 }
-                <Link to="/" className="logo">Image Viewer</Link>
+                <Link to="/home" className="logo">Image Viewer</Link>
                 {/**
                  * Show the Search box and Profile icon only when the user is logged in
                  */}
@@ -97,13 +97,15 @@ class Header extends Component {
                             open={this.state.showMenu}
                             onClose={this.profilePictureClickHandler}
                             className="profile-options-menu">
-                            <MenuItem onClick={this.myAccountClickHandler}>
-                                <span className="menu-option">My Account</span>
-                            </MenuItem>
-                            {/**
-                             * Display a line separator for menu options
-                             */}
-                            <hr />
+                            {this.props.pageId === 'home' &&
+                                <div>
+                                    <MenuItem onClick={this.myAccountClickHandler}>
+                                        <span className="menu-option">My Account</span>
+                                    </MenuItem>
+                                    {/** Display a line separator for menu options */}
+                                    <hr />
+                                </div>
+                            }
                             <MenuItem onClick={this.logoutClickHandler}>
                                 <span className="menu-option">Logout</span>
                             </MenuItem>

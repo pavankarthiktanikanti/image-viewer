@@ -1,0 +1,88 @@
+/* Style the container with 80% width and margins */
+
+.profile-container {
+    width: 80%;
+    margin: 2% auto 2% auto;
+}
+
+/* Style the elements in flex display */
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+}
+
+/* Profile Picture Section with width and margins */
+
+.profile-picture-section {
+    max-width: 30%;
+    margin-left: 10%;
+}
+
+/* Set width and height of profile picture */
+
+.profile-picture {
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+}
+
+/* Style the details to the right of profile picture */
+
+.details-section {
+    width: 70%;
+    margin-left: 2%;
+}
+
+/* Style the Section with width and flex row */
+
+.stats-section {
+    padding-top: 10px;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* Style the grid images top margin */
+
+.images-grid-list {
+    margin-top: 3%;
+}
+
+/* Change the cursor to pointer for grid images */
+
+.grid-list-main {
+    transform: translateZ(0);
+    cursor: pointer;
+}
+
+/* Style for hiding elements */
+
+.dispNone {
+    display: none;
+}
+
+/* Style for display hidden elements */
+
+.dispBlock {
+    display: block;
+}
+
+/* Set the Red color for required text */
+
+.red {
+    color: red;
+}
+
+/* Set the style based on screen width */
+
+@media(max-width:992px) {
+    .profile-picture {
+        max-width: 120px;
+        width: auto;
+        height: auto;
+    }
+}

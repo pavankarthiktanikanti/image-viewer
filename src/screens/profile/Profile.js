@@ -12,6 +12,11 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
+import CardHeader from '@material-ui/core/CardHeader';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import IconButton from '@material-ui/core/IconButton';
 import './Profile.css';
 
 /**
@@ -23,6 +28,24 @@ const styles = theme => ({
         marginLeft: '2%',
         width: '45px',
         height: '45px'
+    },
+    // Style for bold font
+    boldFont: {
+        "font-weight": 600
+    },
+    // Provide 0 padding for the favorite icon
+    fav: {
+        padding: 0
+    },
+    // Style header with padding left and bottom
+    cardHeader: {
+        padding: '0 0 10px 10px'
+    },
+    // Comments section display in a row and on same line
+    addComment: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "baseline"
     }
 });
 
@@ -52,6 +75,21 @@ const customStyles = {
     }
 }
 
+/**
+ * Style the Image view modal opened on click of grid image
+ */
+const imageModalStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        transform: 'translate(-50%, -50%)',
+        width: '60vw',
+        height: '60vh'
+    }
+}
+
 class Profile extends Component {
     /**
     * Initialize the Component and state variables
@@ -70,7 +108,9 @@ class Profile extends Component {
             images: [],
             nameUpdateModalIsOpen: false,
             modifiedFullName: '',
-            modifiedFullNameRequired: 'dispNone'
+            modifiedFullNameRequired: 'dispNone',
+            imageModalIsOpen: false,
+            selectedImage: {}
         }
     }
 
@@ -107,6 +147,12 @@ class Profile extends Component {
                 if (this.readyState === 4) {
                     // Read the media info from response Data and set it to state
                     let responseData = JSON.parse(this.response).data;
+                    responseData.forEach(image => {
+                        // Parse the caption and split the text
+                        image.caption.text = image.caption.text.split('\n');
+                        image.userComments = [];
+                        image.commentText = '';
+                    });
                     thisComponent.setState({
                         images: responseData
                     });
@@ -130,10 +176,17 @@ class Profile extends Component {
     }
 
     /**
+     * Set the selected image on click of grid image to show in the modal
+     */
+    gridImageClickHandler = (image) => {
+        this.setState({ selectedImage: image, imageModalIsOpen: true });
+    }
+
+    /**
      * Hide the Username edit Modal on focus loss of the modal
      */
     closeModalHandler = () => {
-        this.setState({ nameUpdateModalIsOpen: false });
+        this.setState({ nameUpdateModalIsOpen: false, imageModalIsOpen: false });
     }
 
     /**
@@ -156,9 +209,57 @@ class Profile extends Component {
         }
     }
 
+    /**
+     * Update the like counts when user clicks on the Favorite Icon
+     * Checks if already liked, toggles the liked flag i.e. true to false and viceversa
+     */
+    likeButtonClickHandler = (image) => {
+        if (image.user_has_liked) {
+            if (image.likes.count > 0) {
+                image.likes.count--;
+            } else {
+                image.likes.count = 0;
+            }
+        } else {
+            image.likes.count++;
+        }
+        image.user_has_liked = !image.user_has_liked;
+        // Set the state to update the content on page
+        this.setState({ ...this.state });
+    }
+
+    /**
+     * Store the image comments added in the text box and the image id
+     * for which the comment is added on change of data in the text box
+     */
+    commentsChangeHandler = (event, image) => {
+        this.setState({
+            commentedImageId: image.id
+        });
+        image.commentText = event.target.value;
+    }
+
+    /**
+     * Show the new comment under the image and clear the input
+     * text box
+     */
+    addCommentsClickHandler = (event, image) => {
+        if (image.commentText !== '') {
+            image.comments.count++;
+            image.userComments.push({
+                id: image.comments.count,
+                text: image.commentText,
+                username: this.state.username
+            });
+            image.commentText = '';
+            // Set the state to update the content on page
+            this.setState({ ...this.state });
+        }
+    }
+
     render() {
         const { classes } = this.props;
-
+        let selectedImage = this.state.selectedImage;
         return (
             <div>
                 {/**
@@ -213,11 +314,96 @@ class Profile extends Component {
                     <div className="images-grid-list">
                         <GridList cellHeight={350} cols={3} className="grid-list-main">
                             {this.state.images.map(image => (
-                                <GridListTile key={image.id}>
+                                <GridListTile key={image.id} onClick={() => this.gridImageClickHandler(image)}>
                                     <img src={image.images.standard_resolution.url} alt={image.id} />
                                 </GridListTile>
                             ))}
                         </GridList>
+                        {/**
+                         * Individual Image details modal on click on grid view image
+                         */}
+                        <Modal ariaHideApp={false} isOpen={this.state.imageModalIsOpen} contentLabel="view" onRequestClose={this.closeModalHandler} style={imageModalStyles}>
+                            {selectedImage.images &&
+                                <div>
+                                    <div className="image-section">
+                                        <img src={selectedImage.images.standard_resolution.url} className="image-post" alt={selectedImage.id} />
+                                    </div>
+                                    <div className="right-section">
+                                        {/**
+                                         * Card Header with profile picture, username and the time of image creation
+                                         */}
+                                        <CardHeader className={classes.cardHeader}
+                                            classes={{ title: classes.boldFont }}
+                                            avatar={
+                                                <Avatar
+                                                    src={selectedImage.user.profile_picture}>
+                                                </Avatar>
+                                            }
+                                            title={selectedImage.user.username}>
+                                        </CardHeader>
+                                        <hr />
+                                        {/**
+                                         * Show the image caption and the hash tags
+                                         */}
+                                        <div className="content">
+                                            <Typography className={classes.boldFont}>
+                                                {selectedImage.caption.text[0]}
+                                            </Typography>
+                                            <Typography className="image-hash-tag">
+                                                {selectedImage.tags.map(tag => '#' + tag + ' ')}
+                                            </Typography>
+                                            {/**
+                                             * Show the comments added earlier for this image with the username who added
+                                             */}
+                                            <div className="comments-section">
+                                                {selectedImage.userComments !== null && selectedImage.userComments.map(comment => (
+                                                    <div key={selectedImage.id + "comment" + comment.id}>
+                                                        <Typography>
+                                                            <span className="comment-username">{comment.username}:&nbsp;</span>
+                                                            <span className="comment-text">{comment.text}</span>
+                                                        </Typography>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className="likes-add-comment-section">
+                                                {/**
+                                                 * Show Favorite Icon with red color when liked, Border Icon otherwise
+                                                 */}
+                                                <IconButton onClick={() => this.likeButtonClickHandler(selectedImage)} className={classes.fav} >
+                                                    {selectedImage.user_has_liked
+                                                        ? <FavoriteIcon fontSize="large" color='error' />
+                                                        : <FavoriteBorderIcon fontSize="large" className="favorite-icon" />
+                                                    }
+                                                </IconButton>
+                                                {/**
+                                                 * Show the Likes count based on user actions
+                                                 */}
+                                                <Typography className="likes-count">
+                                                    {selectedImage.likes.count === 1
+                                                        ? <span>{selectedImage.likes.count} like</span>
+                                                        : <span>{selectedImage.likes.count} likes</span>
+                                                    }
+                                                </Typography>
+                                                {/**
+                                                 * Comments Input box and Add button
+                                                 * */}
+                                                <div className="add-comments-section">
+                                                    <FormControl className={classes.addComment}>
+                                                        <InputLabel htmlFor="comments">Add a comment</InputLabel>
+                                                        {/**
+                                                         * If the last entered comment is the one related to this image card, then clear the comments input box
+                                                         * */}
+                                                        <Input id={"comments" + selectedImage.id} className="comments-input"
+                                                            onChange={(event) => this.commentsChangeHandler(event, selectedImage)} value={selectedImage.commentText}></Input>
+                                                        <Button variant="contained" color="primary" onClick={(event) => this.addCommentsClickHandler(event, selectedImage)}>ADD</Button>
+                                                    </FormControl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </Modal>
                     </div>
                 </div>
             </div>

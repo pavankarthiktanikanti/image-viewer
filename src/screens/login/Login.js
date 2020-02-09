@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Header from '../../common/header/Header';
-import './Login.css';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +8,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
+import { Redirect } from 'react-router-dom';
+import './Login.css';
 
 /**
  * Login Component for user Login Screen
@@ -24,7 +25,8 @@ class Login extends Component {
             usernameRequired: "dispNone",
             password: "",
             passwordRequired: "dispNone",
-            incorrectUsernamePassword: "dispNone"
+            incorrectUsernamePassword: "dispNone",
+            isUserLoggedIn: sessionStorage.getItem('access-token') != null
         }
     }
 
@@ -78,6 +80,11 @@ class Login extends Component {
     render() {
         return (
             <div>
+                {/**
+                 * Redirect to home page if the user is logged in
+                 */
+                    this.state.isUserLoggedIn && <Redirect to='/home' />
+                }
                 <Header />
                 <Card className="card-style">
                     <CardContent>

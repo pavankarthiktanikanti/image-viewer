@@ -60,7 +60,8 @@
 }
 
 /* Style the Image in the grid with full width */
-.image-grid > img {
+
+.image-grid>img {
     width: 100%;
     height: 100%;
 }

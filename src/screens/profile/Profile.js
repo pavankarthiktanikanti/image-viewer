@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../../common/header/Header';
+import Grid from '@material-ui/core/Grid';
 import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
 import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
@@ -24,6 +24,7 @@ import './Profile.css';
  * @param {*} theme 
  */
 const styles = theme => ({
+    // Style the width and height of edit icon
     editIcon: {
         marginLeft: '2%',
         width: '45px',
@@ -312,12 +313,12 @@ class Profile extends Component {
                      * Grid view of all the images posted by the user
                      */}
                     <div className="images-grid-list">
-                        <GridList cellHeight={350} cols={3} className="grid-list-main">
+                        <GridList cellHeight={350} spacing={5}>
                             {this.state.images.map(image => (
-                                <GridListTile key={image.id} onClick={() => this.gridImageClickHandler(image)}>
+                                <Grid key={"post" + image.id} item xs={12} sm={6} lg={4} className="image-grid" onClick={() => this.gridImageClickHandler(image)}>
                                     <img src={image.images.standard_resolution.url} alt={image.id} />
-                                </GridListTile>
-                            ))}
+                                </Grid>))
+                            }
                         </GridList>
                         {/**
                          * Individual Image details modal on click on grid view image

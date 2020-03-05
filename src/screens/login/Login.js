@@ -66,7 +66,7 @@ class Login extends Component {
         // If any of the field is empty, then incorrect message shouldn't be shown
         if (this.state.username === "" || this.state.password === "") {
             this.setState({ incorrectUsernamePassword: "dispNone" });
-        } else if (this.state.username === validUser || this.state.password === validPassword) {
+        } else if (this.state.username === validUser && this.state.password === validPassword) {
             // Set access token in session storage and redirect to Home page
             sessionStorage.setItem("access-token", accessToken);
             this.props.history.push("/home");
